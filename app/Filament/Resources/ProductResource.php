@@ -15,8 +15,15 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\ProductResource\Pages;
@@ -120,41 +127,56 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('category_id')
-                    ->numeric()
+               TextColumn::make('name')
+                ->searchable(),
+
+                TextColumn::make('category.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('brand_id')
-                    ->numeric()
+
+                TextColumn::make('brand.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->money()
+
+                TextColumn::make('price')
+                    ->money('NPR')
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_active')
+
+                IconColumn::make('in_stock')
                     ->boolean(),
-                Tables\Columns\IconColumn::make('is_featured')
+
+                IconColumn::make('is_active')
                     ->boolean(),
-                Tables\Columns\IconColumn::make('in_stock')
+
+                IconColumn::make('on_sale')
+                    ->boolean()
+                    ->label('On Sale'),
+
+                IconColumn::make('is_featured')
                     ->boolean(),
-                Tables\Columns\IconColumn::make('on_sale')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('category_id')
+                    ->label('Category')
+                    ->relationship('category', 'name'),
+
+                SelectFilter::make('brand_id')
+                    ->label('Brand')
+                    ->relationship('brand', 'name'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->actions([                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
