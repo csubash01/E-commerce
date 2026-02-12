@@ -49,8 +49,8 @@ class ProductResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->live(onBlur: true)
-                            ->afterStateUpdated(function(string $operation, $state, Set $set){
-                                if($operation !== 'create') {
+                            ->afterStateUpdated(function (string $operation, $state, Set $set) {
+                                if ($operation !== 'create') {
                                     return;
                                 }
                                 $set('slug', Str::slug($state));
@@ -69,7 +69,7 @@ class ProductResource extends Resource
                             ->columnSpanFull()
                             ->fileAttachmentsDirectory('products'),
 
-                    ])->columnSpan(2),
+                    ])->columnSpanfull(),
 
                     Section::make('Images')->schema([
                         FileUpload::make('images')
@@ -77,7 +77,7 @@ class ProductResource extends Resource
                             ->directory('products')
                             ->maxFiles(5)
                             ->reorderable(),
-                    ])
+                    ])->columnSpanFull(),
 
                 ])->columns(5),
 
@@ -123,15 +123,15 @@ class ProductResource extends Resource
 
                 ])->columnSpan(2),
 
-            ])->columns(5);
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-               TextColumn::make('name')
-                ->searchable(),
+                TextColumn::make('name')
+                    ->searchable(),
 
                 TextColumn::make('category.name')
                     ->sortable(),
@@ -175,7 +175,8 @@ class ProductResource extends Resource
                     ->label('Brand')
                     ->relationship('brand', 'name'),
             ])
-            ->actions([                ActionGroup::make([
+            ->actions([
+                ActionGroup::make([
                     ViewAction::make(),
                     EditAction::make(),
                     DeleteAction::make(),
