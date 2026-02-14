@@ -11,15 +11,12 @@
 </head>
 
 <body class="bg-slate-200 dark:bg-slate-700">
-@livewire('partials.navbar')
+    @livewire('partials.navbar')
     <main>
         {{ $slot }}
     </main>
-
+    @livewire('partials.footer')
+    @livewireScripts
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
-@livewire('partials.footer')
-
-
-@livewireScripts
-
 </html>

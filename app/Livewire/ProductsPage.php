@@ -9,11 +9,15 @@ use App\Models\Category;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
+use App\Helpers\CartManagement;
+use App\Livewire\Partials\Navbar;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 
 #[Title('Products - UDhaarO BazaaR')]
 
 class ProductsPage extends Component
 {
+    // use LivewireAlert;
 
     use WithPagination;
 
@@ -32,6 +36,22 @@ class ProductsPage extends Component
 
     #[Url]
     public $price_range = '300000';
+
+    //add product to cart method
+
+    public function addToCart($product_id)
+    {
+        $total_count = CartManagement::addItemToCart($product_id);
+
+        $this->dispatch('update-cart-count', total_count: $total_count)->to(Navbar::class);
+
+        LivewireAlert::title('Item added to cart.')
+            ->text('The item has been successfully added to cart.')
+            ->success()
+            ->show();
+    }
+
+
     public function render()
     {
         $productQuery = Product::query()->where('is_active', 1);

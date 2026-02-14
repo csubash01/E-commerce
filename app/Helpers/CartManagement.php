@@ -1,12 +1,11 @@
 <?php
 
-namespace Helpers;
+namespace App\Helpers;
 
-use App\Helpers;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\Product;
 
-class CartManagement{
+class CartManagement {
     // Add item to cart
     static public function addItemToCart($product_id){
         $cart_items = self::getCartItemsFromCookie();
@@ -15,7 +14,7 @@ class CartManagement{
 
         foreach($cart_items as $key => $item){
             if($item['product_id'] == $product_id){
-                $existing_items = $key;
+                $existing_item = $key;
                 break;
             }
         }
