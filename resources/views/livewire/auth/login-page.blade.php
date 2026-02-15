@@ -18,7 +18,13 @@
                     <hr class="my-5 border-slate-300">
 
                     <!-- Form -->
-                    <form wire:submit.prevent="'save">
+                    <form wire:submit.prevent="save">
+                        @if (session('error'))
+                            <div class="bg-red-100 border mb-4 border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-500/20 dark:border-red-900 dark:text-red-400"
+                                role="alert" tabindex="-1" aria-labelledby="hs-soft-color-danger-label">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                         <div class="grid gap-y-4">
                             <!-- Form Group -->
                             <div>
@@ -66,7 +72,7 @@
                                     @enderror
                                 </div>
                                 @error('password')
-                                    <p class=" text-xs text-red-600 mt-2" id="email-error">{{ $message }}</p>
+                                    <p class=" text-xs text-red-600 mt-2" id="password-error">{{ $message }}</p>
                                 @enderror
                             </div>
                             <!-- End Form Group -->

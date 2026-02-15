@@ -16,8 +16,7 @@
                     </div>
                     <hr class="my-5 border-slate-300">
                     <!-- Form -->
-                    <form wire:submit.prevent="save"
->
+                    <form wire:submit.prevent="save">
 
                         <div class="grid gap-y-4">
                             <!-- Form Group -->
@@ -39,7 +38,7 @@
                                     @enderror
                                 </div>
                                 @error('name')
-                                    <p class=" text-xs text-red-600 mt-2" id="email-error">{{ $message }}</p>
+                                    <p class=" text-xs text-red-600 mt-2" id="name-error">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -85,8 +84,8 @@
                                         </div>
                                     @enderror
                                 </div>
-                                 @error('password')
-                                    <p class=" text-xs text-red-600 mt-2" id="email-error">{{ $message }}</p>
+                                @error('password')
+                                    <p class=" text-xs text-red-600 mt-2" id="password-error">{{ $message }}</p>
                                 @enderror
                             </div>
                             <!-- End Form Group -->
@@ -95,8 +94,8 @@
                                 class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Sign
                                 up</button>
                         </div>
-                    </wire:submit.prevent=>
-                    <!-- End Form -->
+
+                        <!-- End Form -->
                 </div>
             </div>
     </div>
