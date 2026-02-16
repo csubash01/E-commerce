@@ -44,18 +44,17 @@ class ResetPasswordPage extends Component
             ],
 
            function (User $user, string $password) {
-    $user->forceFill([
-        'password' => Hash::make($password),
-        'remember_token' => Str::random(60),
-    ])->save();
-
-    event(new PasswordReset($user));
-}
-
+                $password = $this->password;
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+                $user->save();
+                event(new PasswordReset($user));
+            }
         );
 
-        return $status === Password::PASSWORD_RESET?redirect('/login'):session()
-            ->flash('error','Something went wrong!');
+        return $status === Password::PASSWORD_RESET ? redirect('/login'): session()
+        ->flash('error','Something went wrong!');
     }
 
     public function render()
